@@ -3,18 +3,16 @@
 #include <ostream>
 #include <iostream>
 #include <vector>
-#include <cmath>
 #include "FM_points.h"
 #include "Abstract_RobotFactory.h"
 #include "Factory_assigment.h"
-
+const double PI  =3.141592653589793238463;
 int main()
 {
     // Factory method
-    auto p = FM_Points::NewCartesian(10,20);
-    std::cout << "Cartesian : " << p;
-    auto pPolar = FM_Points::NewPolar(10,M_PI_4);
-    std::cout << "Polar : " << pPolar;
+    std::cout << "Cartesian : " << FM_Points::NewCartesian(10,20) << std::endl;
+    std::cout << "Polar : " << FM_Points::NewPolar(10,PI) << std::endl;
+
 
     // Abstract Factory
     
