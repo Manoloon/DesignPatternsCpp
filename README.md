@@ -1,6 +1,5 @@
-# MultithreadingCpp
-Assignments for the course Multithreading with Modern C++ by James Raynard
-
-* 1_1-FizzBuzz : Launching a Thread.
-* 1_2-SharedData : sharing data between threads
-* 1_3-Dining Philosophers : https://en.m.wikipedia.org/wiki/Dining_philosophers_problem - avoiding Deadlock.
+# Design Patterns
+## Creational type
+* Builder : Create object's piecewise as components.
+* Factory : Create the whole object using Factory method, Factory Class or a hierarchical set of abstract Factories.
+* Prototype : When the copy of an object its cheaper than the construction of a new one.
