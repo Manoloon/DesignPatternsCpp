@@ -2,8 +2,14 @@
 #include <map>
 #include <string>
 #include <fstream>
+#include <vector>
 
-class SingletonDB
+class DatabaseInterface
+{
+  public:
+  virtual int getPopulation(const std::string& cityName) = 0;
+};
+class SingletonDB : public DatabaseInterface
 {
   SingletonDB()
   {
@@ -39,6 +45,54 @@ class SingletonDB
     return Data[City];
   }
 };
+
+// dummy DB to be used for TEST 
+// the main problem here is with this we can have unit test for the singletonDB.
+class DummyDB : public DatabaseInterface
+{
+  std::map<std::string, int> Data;
+  DummyDB()
+  {
+    Data["City1"] = 1;
+    Data["City2"] = 2;
+    Data["City3"] = 3;
+  }
+  public:
+  int getPopulation(const std::string& city) override
+  {
+    return Data[city];
+  }
+};
+// meant to be use for TEST 
+struct SingletonRecordFinder
+{
+    int totalPopulation(std::vector<std::string> cityNames)
+    {
+        int result{0};
+        for(auto name : cityNames)
+        {
+            result +=SingletonDB::get().getPopulation(name);
+        }
+        return result;
+    }
+};
+
+struct ConfigurableRecordFinder
+{
+  DatabaseInterface& db;
+  ConfigurableRecordFinder(DatabaseInterface& db):db(db){}
+
+  int totalPopulation(std::vector<std::string> cityNames)
+    {
+        int result{0};
+        for(auto name : cityNames)
+        {
+            result += db.getPopulation(name);
+        }
+        return result;
+    }
+};
+
 int main()
 {
   std::string city = "Tokyo";
