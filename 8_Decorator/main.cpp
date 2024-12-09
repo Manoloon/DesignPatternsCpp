@@ -13,8 +13,11 @@ int main()
 	// Circle API isnt accesible
 
 	// Static decorator 
-	StaticColoredShape<circle> StaticColorCircle{"Green",50};
+	std::cout << "Static decorator :: \n"; 
+	StaticColoredShape<Circle> StaticColorCircle{"Green",150};
 	std::cout << StaticColorCircle.getName() << '\n';
-	
+	StaticColorCircle.Color = "Red";
+	StaticColorCircle.Radius = 16;
+	std::cout << StaticColorCircle.getName() << '\n';
 	return 0;
 }

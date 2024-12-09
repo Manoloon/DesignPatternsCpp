@@ -67,4 +67,11 @@ struct StaticColoredShape : T
     template<typename... Args>
     StaticColoredShape(const std::string& color,Args...args):
         T(std::forward<Args>(args)...),Color{color}{}
+    
+    std::string getName() const override 
+    {
+        std::ostringstream oss;
+        oss << T::getName() << " and my color is " << Color;
+        return oss.str();
+    }
 };
