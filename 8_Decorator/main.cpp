@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Shapes.hpp"
+#include "Exercise.hpp"
 
 int main()
 {
@@ -19,5 +20,9 @@ int main()
 	StaticColorCircle.Color = "Red";
 	StaticColorCircle.Radius = 16;
 	std::cout << StaticColorCircle.getName() << '\n';
+
+	// Exercise
+	std::cout << "Exercise decorator :: \n";
+	RoseTest();
 	return 0;
 }
