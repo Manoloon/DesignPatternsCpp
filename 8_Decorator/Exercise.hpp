@@ -25,20 +25,22 @@ struct RedFlower : Flower
 {
     Flower& flower;
     string color = "red";
-    RedFlower()=default;
+
     RedFlower(Flower& _flower):flower(_flower){}
 
     string str() override 
     {
         ostringstream oss;
         string flowerString = flower.str();
-        if(flowerString == "A rose" && !flowerString.ends_with(color))
+        if (flowerString.find(color) == string::npos)
         {
+            (flowerString.find(" that is ") != string::npos) ?
+            oss << flowerString << " and " << color :
             oss << flowerString << " that is " << color;
         }
         else
         {
-            oss << flowerString << " and " << color;
+            oss << flowerString;
         }
         return oss.str();
     }
@@ -48,36 +50,25 @@ struct BlueFlower : Flower
 {
     Flower& flower;
     string color = "blue";
-    BlueFlower()=default;
+    
     BlueFlower(Flower& _flower):flower(_flower){}
     string str() override 
     {
         ostringstream oss;
         string flowerString = flower.str();
-                if(flowerString == "A rose" && !flowerString.ends_with(color))
+        if (flowerString.find(color) == string::npos)
         {
+            (flowerString.find(" that is ") != string::npos) ?
+            oss << flowerString << " and " << color :
             oss << flowerString << " that is " << color;
         }
         else
         {
-            oss << flowerString << " and " << color;
+            oss << flowerString;
         }
         return oss.str();
     }
 };
-
-// template<typename T>
-// concept IsAFlower = requires {is_base_of_v{Flower,T};};
-// template <IsAFlower T>
-// struct staticFlower : T
-// {
-//     string str() override
-//     {
-//         ostringstream oss;
-//         oss << T::str()
-//         return oss.str();
-//     }
-// };
 
 void RoseTest()
 {
