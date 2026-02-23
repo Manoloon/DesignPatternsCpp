@@ -13,7 +13,7 @@ struct Sentence
   explicit Sentence(const std::string& text)
   {
 	if (text.empty()) return;
-	
+
 	std::string word = "";
 	for (auto& c : text)
 	{	
@@ -48,6 +48,7 @@ struct Sentence
 		{
 			result += c.capitalize ? toupper(l) : l;
 		}
+		// TODO : only add space if there are more words
 		result += ' ';
 	}
 	return result;
@@ -59,7 +60,7 @@ struct Sentence
 
 int main()
 {
-	Sentence sentence("hello world");
+	Sentence sentence("hello world ");
 	sentence[1].capitalize = true;
 	std::cout << sentence.str(); // prints "hello WORLD"
 	return 0;
