@@ -41,6 +41,7 @@ struct Sentence
   std::string str() const
   {
     // todo
+	int count = 0;
 	std::string result = "";
 	for (auto& c : Words)
 	{
@@ -48,8 +49,9 @@ struct Sentence
 		{
 			result += c.capitalize ? toupper(l) : l;
 		}
-		// TODO : only add space if there are more words
-		result += ' ';
+		count++;
+		if (count < Words.size())
+			result += ' ';
 	}
 	return result;
   }
@@ -60,7 +62,7 @@ struct Sentence
 
 int main()
 {
-	Sentence sentence("hello world ");
+	Sentence sentence("hello world");
 	sentence[1].capitalize = true;
 	std::cout << sentence.str(); // prints "hello WORLD"
 	return 0;
