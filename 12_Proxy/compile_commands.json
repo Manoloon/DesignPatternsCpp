@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Coding/cpp/DesignPatternsCpp/11_Flyweight/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe   -g -std=gnu++20 -o CMakeFiles\\Flyweight.dir\\main.cpp.obj -c C:\\Coding\\cpp\\DesignPatternsCpp\\11_Flyweight\\main.cpp",
+  "file": "C:/Coding/cpp/DesignPatternsCpp/11_Flyweight/main.cpp",
+  "output": "CMakeFiles/Flyweight.dir/main.cpp.obj"
+}
+]
