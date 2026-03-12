@@ -1,57 +1,97 @@
 #include <iostream>
-#include <string>
 #include <vector>
+#include <typeinfo>
+#include <cassert>
 /*
-	Proxy Exercise 
+	Responsability Exercise 
 */
-class Person
+struct Creature;
+struct Game
 {
-  friend class ResponsiblePerson;
-  int age;
+  std::vector<Creature*> creatures;
+  
+};
+
+struct StatQuery
+{
+  enum Statistic { attack, defense } statistic;
+  int result;
+};
+
+struct Creature
+{
+protected:
+  Game& game;
+
+  int base_attack, base_defense;
+
 public:
-  Person(int age) : age(age) {}
-
-  int get_age() const { return age; }
-  void set_age(int age) { this->age=age; }
-
-  std::string drink() const { return "drinking"; }
-  std::string drive() const { return "driving"; }
-  std::string drink_and_drive() const { return "driving while drunk"; }
+  Creature(Game &game, int base_attack, int base_defense) : game(game), base_attack(base_attack),
+                                                            base_defense(base_defense) {}
+  virtual int get_attack() = 0;
+  virtual int get_defense() = 0;
 };
 
-class ResponsiblePerson
+class Goblin : public Creature
 {
-  public:
-  ResponsiblePerson(const Person &person) : person(person){}
-  int get_age() const {return person.age;}
-  void set_age(int age) { person.set_age(age);}
-  std::string drink()
-  {
-    if (person.age < 18)
+public:
+  Goblin(Game &game, int base_attack, int base_defense) : Creature(game, base_attack, base_defense) {}
+
+  Goblin(Game &game) : Creature(game, 1, 1) {}
+
+  int get_attack() override {
+    for (const auto& creature : game.creatures)
     {
-      return "too young";
+      if (typeid(*creature) != typeid(Goblin))
+      {
+        base_attack +=1;
+      }
     }
-    return person.drink();
+    return base_attack;
   }
-  std::string drive()
-  {
-    if (person.age < 16)
+
+  int get_defense() override {
+    for (const auto& creature : game.creatures)
     {
-      return "too young";
+      if(creature != this)
+      {
+         base_defense +=1;
+      }
     }
-    return person.drive();
+    return base_defense;
   }
-  std::string drink_and_drive()
-  {
-    return "dead";
-  }
-private:
-    Person person;
 };
+
+class GoblinKing : public Goblin
+{
+public:
+  GoblinKing(Game &game) : Goblin(game, 3, 3) {}
+
+  int get_attack() override 
+  {
+    return base_attack;
+  }
+  int get_defense() override 
+  {
+    for (const auto& creature : game.creatures)
+    {
+      if (typeid(*creature) != typeid(GoblinKing))
+      {
+        base_defense +=1;
+      }
+    }
+    return base_defense;
+  }
+};
+
+
 int main()
 {
-  Person person1(16);
-  ResponsiblePerson rp(person1);
-  std::string dr = rp.drive();
+Game game;
+Goblin goblin(game);
+game.creatures.push_back(&goblin);
+
+assert(goblin.get_attack() == 1);
+assert(goblin.get_defense() == 1);
 	return 0;
 }
