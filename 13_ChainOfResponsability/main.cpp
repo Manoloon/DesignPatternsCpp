@@ -26,11 +26,10 @@ protected:
 public:
   Creature(Game &game, int base_attack, int base_defense) : game(game), base_attack(base_attack),
                                                             base_defense(base_defense) {}
-  bool is_king = false;
   int get_attack()
   {
     StatQuery q{StatQuery::attack,0};
-    for(auto c : game.creatures)
+    for(auto& c : game.creatures)
     {
       c->query(q,this);
     }
@@ -41,7 +40,7 @@ public:
   int get_defense()
   {
     StatQuery q{StatQuery::defense,0};
-    for(auto c: game.creatures)
+    for(auto& c: game.creatures)
     {
       c->query(q,this);
     }
@@ -62,10 +61,9 @@ public:
   {
     if (q.statistic == StatQuery::attack)
     {
-      q.result = base_attack;
-      if (requester != this && requester->is_king)
+      if (requester == this)
       {
-        q.result += 1;
+        q.result += base_attack;
       }
     }
     else if (q.statistic == StatQuery::defense)
@@ -85,7 +83,7 @@ public:
 class GoblinKing : public Goblin
 {
 public:
-  GoblinKing(Game &game) : Goblin(game, 3, 3) {is_king = true;}
+  GoblinKing(Game &game) : Goblin(game, 3, 3) {}
 
   void query(StatQuery& q, Creature* requester) override
   {
@@ -95,7 +93,7 @@ public:
         {
           q.result += base_attack;
         }
-      if (requester != this && !requester->is_king)
+      else
       {
         q.result +=1;
       }
@@ -106,26 +104,95 @@ public:
       {
         q.result += base_defense; 
       }
+      else
+      {
+        q.result += 1;
+      }
     }
   }
 };
 
+void test_single_goblin()
+{
+  Game game;
+
+  Goblin g1(game);
+  game.creatures.push_back(&g1);
+
+  assert(g1.get_attack() == 1);
+  assert(g1.get_defense() == 1);
+
+  std::cout << "test_single_goblin passed\n";
+}
+
+void test_two_goblins()
+{
+  Game game;
+
+  Goblin g1(game);
+  Goblin g2(game);
+
+  game.creatures.push_back(&g1);
+  game.creatures.push_back(&g2);
+
+  assert(g1.get_attack() == 1);
+  assert(g1.get_defense() == 2);
+
+  assert(g2.get_attack() == 1);
+  assert(g2.get_defense() == 2);
+
+  std::cout << "test_two_goblins passed\n";
+}
+
+void test_goblin_and_king()
+{
+  Game game;
+
+  Goblin g1(game);
+  GoblinKing king(game);
+
+  game.creatures.push_back(&g1);
+  game.creatures.push_back(&king);
+
+  assert(g1.get_attack() == 2);
+  assert(g1.get_defense() == 2);
+
+  assert(king.get_attack() == 3);
+  assert(king.get_defense() == 3);
+
+  std::cout << "test_goblin_and_king passed\n";
+}
+
+void test_two_goblins_and_king()
+{
+  Game game;
+
+  Goblin g1(game);
+  Goblin g2(game);
+  GoblinKing king(game);
+
+  game.creatures.push_back(&g1);
+  game.creatures.push_back(&g2);
+  game.creatures.push_back(&king);
+
+  assert(g1.get_attack() == 2);
+  assert(g1.get_defense() == 3);
+
+  assert(g2.get_attack() == 2);
+  assert(g2.get_defense() == 3);
+
+  assert(king.get_attack() == 3);
+  assert(king.get_defense() == 3);
+
+  std::cout << "test_two_goblins_and_king passed\n";
+}
 
 int main()
 {
-Game game;
-Goblin goblin(game);
-GoblinKing king(game);
-game.creatures.emplace_back(&goblin);
-assert(goblin.get_attack() == 1);
-assert(goblin.get_defense() == 1);
-game.creatures.emplace_back(&goblin);
-assert(goblin.get_attack() == 1);
-assert(goblin.get_defense() == 2);
-game.creatures.emplace_back(&king);
-assert(goblin.get_attack() == 2);
-assert(goblin.get_defense() == 3);
-assert(king.get_attack() == 3);
-assert(king.get_defense() == 3);
-	return 0;
+  test_single_goblin();
+  test_two_goblins();
+  test_goblin_and_king();
+  test_two_goblins_and_king();
+
+  std::cout << "All tests passed\n";
 }
