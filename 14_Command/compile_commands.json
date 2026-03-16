@@ -1,8 +1,8 @@
 [
 {
-  "directory": "C:/Coding/cpp/DesignPatternsCpp/13_ChainOfResponsability/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe   -g -std=gnu++20 -o CMakeFiles\\ChainOfResp.dir\\main.cpp.obj -c C:\\Coding\\cpp\\DesignPatternsCpp\\13_ChainOfResponsability\\main.cpp",
-  "file": "C:/Coding/cpp/DesignPatternsCpp/13_ChainOfResponsability/main.cpp",
-  "output": "CMakeFiles/ChainOfResp.dir/main.cpp.obj"
+  "directory": "C:/Coding/cpp/DesignPatternsCpp/14_Command/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe   -g -std=gnu++20 -o CMakeFiles\\Command.dir\\main.cpp.obj -c C:\\Coding\\cpp\\DesignPatternsCpp\\14_Command\\main.cpp",
+  "file": "C:/Coding/cpp/DesignPatternsCpp/14_Command/main.cpp",
+  "output": "CMakeFiles/Command.dir/main.cpp.obj"
 }
 ]
