@@ -12,4 +12,13 @@ Un comando es un pedido de permiso para ejecutar cierta accion o cambio
 	El comando no obtiene devuelve ningun resultado, solo muta un dato.
 	Esta es la principal diferencia con una query.
 	Donde query no muta dato sino que lo obtiene.
+
+#Exercise
+	*Command Coding Exercise
+
+	Implement the Account::process()  
+	function to process different account commands. The rules are obvious:
+
+    success  indicates whether the operation was successful
+    You can only withdraw money if you have enough in your account
 	
