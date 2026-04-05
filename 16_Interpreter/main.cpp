@@ -73,10 +73,29 @@ int main()
   ExpressionProcessor ep;
   ep.variables['x'] = 5;
   ep.variables['y'] = 3;
-  assert(ep.calculate("1")== 1);
-  assert (ep.calculate("1+2+3")== 6);
-  assert (ep.calculate("10+x-y")== 12);
-  assert(ep.calculate("x+z") == 0);       // 0 (z undefined)
-  assert(ep.calculate("ab+1") == 0);      // 0 (invalid variable)
-  ep.calculate("1++2");      // 0 (invalid parsing)
+  std::cout << "Start test : where x = 5 and y = 3:\n";
+
+  auto test = ep.calculate("1");
+  assert(test == 1);
+  std::cout << "test only one digit: " << test << '\n';
+
+  test = ep.calculate("1+2+3");
+  assert ( test == 6);
+  std::cout << "test 1+2+3 : " << test << '\n';
+  
+  test = ep.calculate("10+x-y");
+  assert (test == 12);
+  std::cout << "test 10+x-y: " << test << '\n';
+
+  test = ep.calculate("x+z");
+  assert(test == 0);      
+  std::cout << "test x+z, z doesnt exists: " << test << '\n';
+
+  test = ep.calculate("ab+1");
+  assert(test == 0);   
+  std::cout << "test ab+1, invalid variables: " << test << '\n';
+
+  test = ep.calculate("1++2");
+  assert(test == 0);      // 0 (invalid parsing)
+  std::cout << "test 1++2, invalid parsing: " << test << '\n';
 }
