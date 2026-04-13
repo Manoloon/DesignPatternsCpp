@@ -14,7 +14,7 @@ struct Node
     BinaryTree<T>* tree{nullptr};
 
     Node(const T& value):val(value){}
-    Node(const T& value,const Node<T>* left,const Node<T>* right):val(value),left(left),right(right)
+    Node(const T& value,Node<T>* left,Node<T>* right):val(value),left(left),right(right)
     {
         this->left->tree = this->right->tree = tree;
         this->left->parent = this->right->parent = this;
@@ -33,7 +33,7 @@ struct Node
         if(left)
             delete left;
         if (right)
-            delete left;
+            delete right;
     }
 };
 
@@ -56,7 +56,7 @@ struct BinaryTree
     struct PreOrderIterator
     {
         Node<U>* current;
-        PreOrderIterator(const Node<U>& current):current(current){}
+        PreOrderIterator(Node<U>* current):current(current){}
         bool operator!=(const PreOrderIterator& other)
         {
             return current != other.current;
