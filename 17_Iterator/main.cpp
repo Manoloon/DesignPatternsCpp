@@ -3,6 +3,7 @@
 */
 #include <iostream>
 #include <vector>
+#include <assert.h>
 using namespace std;
 
 template <typename T>
@@ -21,48 +22,36 @@ struct Node
     // and put all the results into `result`
     void preorder_traversal(vector<Node<T>*>& result)
     {
-      Node<T>* current = this;
-      if(current->right)
+      result.emplace_back(this);
+      if(left)
       {
-        current = current->right;
-        while (current->left)
-        {
-          current = current->left;
-        }
+        left->preorder_traversal(result);
       }
-      else
+      if(right)
       {
-        Node<T>* p = current->parent;
-        while (p && current == p->right)
-        {
-          current = p;
-          p = current->parent;
-        }
-        current = p;
-        result.emplace_back(this);
+        right->preorder_traversal(result);
       }
     }
 };
 
 int main()
 {
-  vector<Node<string>*> result;
-  vector<Node<string>*> input{new Node<string>{"a"},new Node<string>{"b"},new Node<string>{"c"},new Node<string>{"d"}};
-  for(auto n : input)
-  {
-    cout << (*n).value <<  '\n';
-    (*n).preorder_traversal(result);
-  }
-  cout << "print results\n";
-  if(result.empty())
-  {
-    cout << "result is empty\n";
-  }
-  else
-  {
-    for(const auto& n : result)
+    Node<string> n4("a");
+    Node<string> n5("b");
+    Node<string> n2("c", &n4, &n5);
+    Node<string> n3("d");
+    Node<string> root("e", &n2, &n3);
+
+    vector<Node<string>*> result;
+    root.preorder_traversal(result);
+
+    vector<string> expected{"a", "b", "c","d", "e"};
+    for(auto r : result)
     {
-        cout << n->value << '\n';
+      cout << r->value << "\n";
     }
-  }
+    assert(result.size() == expected.size());
+
+    for (size_t i = 0; i < expected.size(); ++i)
+        assert(result[i]->value == expected[i]);
 }
